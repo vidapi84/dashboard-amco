@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard AMCO</title>
+    <script src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/recharts@2.1.12/umd/Recharts.min.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const Dashboard = () => {
+            const [activeTab, React.useState('genero')];
+
+            const generoData = [
+                { trimestre: 'T1 2024', examenesDelito: 120, casosViolencia: 450 },
+                { trimestre: 'T2 2024', examenesDelito: 115, casosViolencia: 425 },
+                { trimestre: 'T3 2024', examenesDelito: 110, casosViolencia: 400 },
+                { trimestre: 'T4 2024', examenesDelito: 105, casosViolencia: 375 }
+            ];
+
+            const habitantesData = [
+                { trimestre: 'T1 2024', total: 450, cobertura: 60 },
+                { trimestre: 'T2 2024', total: 425, cobertura: 65 },
+                { trimestre: 'T3 2024', total: 400, cobertura: 70 },
+                { trimestre: 'T4 2024', total: 380, cobertura: 75 }
+            ];
+
+            return (
+                <div className="p-8 bg-gray-100 min-h-screen">
+                    <header className="mb-8">
+                        <h1 className="text-3xl font-bold text-gray-800 mb-2">
+                            Observatorio Metropolitano de Políticas Públicas
+                        </h1>
+                        <p className="text-gray-600">Área Metropolitana Centro Occidente</p>
+                    </header>
+
+                    <div className="mb-6">
+                        <button
+                            className={`px-4 py-2 rounded mr-2 ${activeTab === 'genero' ? 'bg-gray-800 text-white' : 'bg-gray-200'}`}
+                            onClick={() => setActiveTab('genero')}
+                        >
+                            Equidad de Género
+                        </button>
+                        <button
+                            className={`px-4 py-2 rounded ${activeTab === 'habitantes' ? 'bg-gray-800 text-white' : 'bg-gray-200'}`}
+                            onClick={() => setActiveTab('habitantes')}
+                        >
+                            Habitantes de Calle
+                        </button>
+                    </div>
+
+                    <div className="bg-white p-6 rounded-lg shadow-sm">
+                        {activeTab === 'genero' ? (
+                            <>
+                                <h2 className="text-xl font-semibold mb-4">Indicadores de Equidad de Género</h2>
+                                <div style={{ width: '100%', height: 400 }}>
+                                    <Recharts.ResponsiveContainer>
+                                        <Recharts.LineChart data={generoData}>
+                                            <Recharts.CartesianGrid strokeDasharray="3 3" />
+                                            <Recharts.XAxis dataKey="trimestre" />
+                                            <Recharts.YAxis />
+                                            <Recharts.Tooltip />
+                                            <Recharts.Legend />
+                                            <Recharts.Line 
+                                                type="monotone" 
+                                                dataKey="examenesDelito" 
+                                                name="Exámenes Delito Sexual" 
+                                                stroke="#4B5563" 
+                                            />
+                                            <Recharts.Line 
+                                                type="monotone" 
+                                                dataKey="casosViolencia" 
+                                                name="Casos Violencia" 
+                                                stroke="#6B7280" 
+                                            />
+                                        </Recharts.LineChart>
+                                    </Recharts.ResponsiveContainer>
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <h2 className="text-xl font-semibold mb-4">Indicadores Habitantes de Calle</h2>
+                                <div style={{ width: '100%', height: 400 }}>
+                                    <Recharts.ResponsiveContainer>
+                                        <Recharts.LineChart data={habitantesData}>
+                                            <Recharts.CartesianGrid strokeDasharray="3 3" />
+                                            <Recharts.XAxis dataKey="trimestre" />
+                                            <Recharts.YAxis />
+                                            <Recharts.Tooltip />
+                                            <Recharts.Legend />
+                                            <Recharts.Line 
+                                                type="monotone" 
+                                                dataKey="total" 
+                                                name="Total Habitantes" 
+                                                stroke="#4B5563" 
+                                            />
+                                            <Recharts.Line 
+                                                type="monotone" 
+                                                dataKey="cobertura" 
+                                                name="Cobertura Servicios (%)" 
+                                                stroke="#6B7280" 
+                                            />
+                                        </Recharts.LineChart>
+                                    </Recharts.ResponsiveContainer>
+                                </div>
+                            </>
+                        )}
+                    </div>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<Dashboard />, document.getElementById('root'));
+    </script>
+</body>
+</html>
